@@ -15,5 +15,16 @@ public class CourierTransformer {
                 .active(entity.isActive())
                 .build();
     }
+    
+    public CourierEntity toCourierEntity(Courier courier) {
+    	String courierName = courier.getName();
+    	String[] nameArray = courierName.split(" ");
+    	return CourierEntity.builder()
+        		.id(courier.getId())
+        		.firstName(nameArray[0])
+        		.lastName(nameArray[1])
+        		.active(courier.isActive())
+                .build();
+    }
 
 }
