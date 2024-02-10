@@ -1,4 +1,4 @@
-package com.evri.interview.repository;
+package com.jmant69.interview.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,12 +1,13 @@
-package com.evri.interview.controller;
+package com.jmant69.interview.controller;
 
-import com.evri.interview.model.Courier;
-import com.evri.interview.service.CourierService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.service.CourierService;
 
 import java.util.List;
 

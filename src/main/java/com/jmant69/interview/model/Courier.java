@@ -1,4 +1,4 @@
-package com.evri.interview.model;
+package com.jmant69.interview.model;
 
 import lombok.Builder;
 import lombok.Data;

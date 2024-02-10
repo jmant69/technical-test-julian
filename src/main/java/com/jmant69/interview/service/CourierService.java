@@ -1,9 +1,10 @@
-package com.evri.interview.service;
+package com.jmant69.interview.service;
 
-import com.evri.interview.model.Courier;
-import com.evri.interview.repository.CourierRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.repository.CourierRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

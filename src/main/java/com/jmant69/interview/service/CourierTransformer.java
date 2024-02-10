@@ -1,8 +1,9 @@
-package com.evri.interview.service;
+package com.jmant69.interview.service;
 
-import com.evri.interview.model.Courier;
-import com.evri.interview.repository.CourierEntity;
 import org.springframework.stereotype.Component;
+
+import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.repository.CourierEntity;
 
 @Component
 public class CourierTransformer {
