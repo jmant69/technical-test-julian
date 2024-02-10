@@ -1,5 +1,9 @@
 package com.jmant69.interview.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,25 +77,116 @@ public class ControllerTests {
             .andDo(MockMvcResultHandlers.print());
     }
     
-//	@Test
-//	public void testUpdateShouldReturn200Ok() throws Exception {
-//		Customer updatedCustomer = new Customer();
-//		updatedCustomer.setCustomerRef(1L);
-//		String expectedValue = "James";
-//		updatedCustomer.setCustomerName(expectedValue);
-//
-//		String requestBody = objectMapper.writeValueAsString(updatedCustomer);
-//
-//		Mockito.when(service.update(updatedCustomer)).thenReturn(updatedCustomer);
-//
-//		Mockito.when(modelMapper.map(updatedCustomer, CustomerDTO.class))
-//				.thenReturn(modelMapperMock.map(updatedCustomer, CustomerDTO.class));
-//
-//		mockMvc.perform(MockMvcRequestBuilders.put(END_POINT_PATH).contentType("application/json").content(requestBody))
-//				.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-//				.andExpect(MockMvcResultMatchers.status().isOk())
-//				.andExpect(MockMvcResultMatchers.jsonPath("$.customerName").value(expectedValue))
-//				.andDo(MockMvcResultHandlers.print());
-//	}
+    @Test
+    public void testGetAllCouriersDefaultShouldReturn200Ok() throws Exception {
+    	List<Courier> courierList = new ArrayList<>();
+    	Courier courier1 = Courier.builder()
+    			.id(1)
+    			.name("Phil Day")
+    			.active(false)
+    			.build();
+    	
+    	Courier courier2 = Courier.builder()
+    			.id(2)
+    			.name("Bill Bloggs")
+    			.active(true)
+    			.build();
+    	
+    	Courier courier3 = Courier.builder()
+    			.id(3)
+    			.name("John Smith")
+    			.active(true)
+    			.build();
+    	
+    	courierList.add(courier1);
+    	courierList.add(courier2);
+    	courierList.add(courier3);
 
+    	String requestUri = END_POINT_PATH + "/couriers";
+     
+        Mockito.when(courierService.getAllCouriers()).thenReturn(courierList);
+     
+        mockMvc.perform(MockMvcRequestBuilders.get(requestUri).contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(3)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("1"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Phil Day"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].active").value("false"))
+            .andDo(MockMvcResultHandlers.print());
+    }
+    
+    @Test
+    public void testGetAllCouriersShouldReturn200Ok() throws Exception {
+    	List<Courier> courierList = new ArrayList<>();
+    	Courier courier1 = Courier.builder()
+    			.id(1)
+    			.name("Phil Day")
+    			.active(false)
+    			.build();
+    	
+    	Courier courier2 = Courier.builder()
+    			.id(2)
+    			.name("Bill Bloggs")
+    			.active(true)
+    			.build();
+    	
+    	Courier courier3 = Courier.builder()
+    			.id(3)
+    			.name("John Smith")
+    			.active(true)
+    			.build();
+    	
+    	courierList.add(courier1);
+    	courierList.add(courier2);
+    	courierList.add(courier3);
+
+    	String requestUri = END_POINT_PATH + "/couriers?isActive=false";
+     
+        Mockito.when(courierService.getAllCouriers()).thenReturn(courierList);
+     
+        mockMvc.perform(MockMvcRequestBuilders.get(requestUri).contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(3)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("1"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Phil Day"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].active").value("false"))
+            .andDo(MockMvcResultHandlers.print());
+    }
+    
+    @Test
+    public void testGetAllActiveCouriersShouldReturn200Ok() throws Exception {
+    	List<Courier> courierList = new ArrayList<>();
+    	Courier courier1 = Courier.builder()
+    			.id(1)
+    			.name("Phil Day")
+    			.active(true)
+    			.build();
+    	
+    	Courier courier2 = Courier.builder()
+    			.id(2)
+    			.name("Bill Bloggs")
+    			.active(true)
+    			.build();
+    	
+    	courierList.add(courier1);
+    	courierList.add(courier2);
+    	
+    	boolean isActive=true;
+
+    	String requestUri = END_POINT_PATH + "/couriers?isActive=true";
+		    
+        Mockito.when(courierService.getAllActiveCouriers(isActive)).thenReturn(courierList);
+     
+        mockMvc.perform(MockMvcRequestBuilders.get(requestUri).contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(2)))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("1"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Phil Day"))
+			.andExpect(MockMvcResultMatchers.jsonPath("$[0].active").value("true"))
+            .andDo(MockMvcResultHandlers.print());
+    }
+    
 }

@@ -22,6 +22,10 @@ public class CourierService {
 	public List<Courier> getAllCouriers() {
 		return repository.findAll().stream().map(courierTransformer::toCourier).collect(Collectors.toList());
 	}
+	
+	public List<Courier> getAllActiveCouriers(Boolean active) {
+		return repository.findByActive(active).stream().map(courierTransformer::toCourier).collect(Collectors.toList());
+	}
 
 	public Courier update(Courier courier, Long id) throws NotFoundException {
 		if (!repository.existsById(id)) {
