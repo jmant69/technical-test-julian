@@ -3,6 +3,7 @@ package com.jmant69.interview.service;
 import org.springframework.stereotype.Component;
 
 import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.model.CourierPut;
 import com.jmant69.interview.repository.CourierEntity;
 
 @Component
@@ -16,14 +17,12 @@ public class CourierTransformer {
                 .build();
     }
     
-    public CourierEntity toCourierEntity(Courier courier) {
-    	String courierName = courier.getName();
-    	String[] nameArray = courierName.split(" ");
+    public CourierEntity toCourierEntity(CourierPut courierPut, Long id) {
     	return CourierEntity.builder()
-        		.id(courier.getId())
-        		.firstName(nameArray[0])
-        		.lastName(nameArray[1])
-        		.active(courier.isActive())
+        		.id(id)
+        		.firstName(courierPut.getFirstName())
+        		.lastName(courierPut.getLastName())
+        		.active(courierPut.getActive())
                 .build();
     }
 

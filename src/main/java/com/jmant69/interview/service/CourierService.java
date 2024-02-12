@@ -7,6 +7,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.model.CourierPut;
 import com.jmant69.interview.repository.CourierEntity;
 import com.jmant69.interview.repository.CourierRepository;
 
@@ -23,15 +24,15 @@ public class CourierService {
 		return repository.findAll().stream().map(courierTransformer::toCourier).collect(Collectors.toList());
 	}
 	
-	public List<Courier> getAllActiveCouriers(Boolean active) {
-		return repository.findByActive(active).stream().map(courierTransformer::toCourier).collect(Collectors.toList());
+	public List<Courier> getAllActiveCouriers(Boolean isActive) {
+		return repository.findByActive(isActive).stream().map(courierTransformer::toCourier).collect(Collectors.toList());
 	}
 
-	public Courier update(Courier courier, Long id) throws NotFoundException {
+	public Courier update(CourierPut courier, Long id) throws NotFoundException {
 		if (!repository.existsById(id)) {
 			throw new NotFoundException();
 		}
-		CourierEntity courierEntity = courierTransformer.toCourierEntity(courier);
+		CourierEntity courierEntity = courierTransformer.toCourierEntity(courier, id);
 		CourierEntity savedCourierEntity = repository.save(courierEntity);
 		return courierTransformer.toCourier(savedCourierEntity);
 	}

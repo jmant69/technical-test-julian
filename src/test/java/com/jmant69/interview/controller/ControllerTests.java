@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jmant69.interview.model.Courier;
+import com.jmant69.interview.model.CourierPut;
 import com.jmant69.interview.service.CourierService;
 
 @WebMvcTest(CourierController.class)
@@ -33,9 +34,9 @@ public class ControllerTests {
 	
     @Test
     public void testUpdateShouldReturn404NotFound() throws Exception {
-    	Courier courier = Courier.builder()
-    			.id(500)
-    			.name("Phil Day")
+    	CourierPut courier = CourierPut.builder()
+    			.firstName("Phil")
+    			.lastName("Day")
     			.active(false)
     			.build();
 
@@ -59,14 +60,20 @@ public class ControllerTests {
     			.name("Phil Day")
     			.active(false)
     			.build();
-
+    	
+    	CourierPut courierPut = CourierPut.builder()
+    			.firstName("Phil")
+    			.lastName("Day")
+    			.active(false)
+    			.build();
+    	
     	Long id = 1L;
 
     	String requestUri = END_POINT_PATH + "/updatecourier/" + id;
 		
-		String requestBody = objectMapper.writeValueAsString(courier);
+		String requestBody = objectMapper.writeValueAsString(courierPut);
      
-        Mockito.when(courierService.update(courier, id)).thenReturn(courier);
+        Mockito.when(courierService.update(courierPut, id)).thenReturn(courier);
      
         mockMvc.perform(MockMvcRequestBuilders.put(requestUri).contentType("application/json").content(requestBody))
 			.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
@@ -173,7 +180,7 @@ public class ControllerTests {
     	courierList.add(courier1);
     	courierList.add(courier2);
     	
-    	boolean isActive=true;
+    	Boolean isActive=true;
 
     	String requestUri = END_POINT_PATH + "/couriers?isActive=true";
 		    
