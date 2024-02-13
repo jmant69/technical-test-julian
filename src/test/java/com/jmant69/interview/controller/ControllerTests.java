@@ -9,13 +9,13 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jmant69.interview.exception.CourierNotFoundException;
 import com.jmant69.interview.model.Courier;
 import com.jmant69.interview.model.CourierPut;
 import com.jmant69.interview.service.CourierService;
@@ -41,12 +41,14 @@ public class ControllerTests {
     			.build();
 
     	Long id = 500L;
+    	
+		String message="Courier not found for id : " + id;
 
     	String requestUri = END_POINT_PATH + "/updatecourier/" + id;
 		
 		String requestBody = objectMapper.writeValueAsString(courier);
      
-        Mockito.when(courierService.update(courier, id)).thenThrow(NotFoundException.class);
+        Mockito.when(courierService.update(courier, id)).thenThrow(new CourierNotFoundException(message));
      
         mockMvc.perform(MockMvcRequestBuilders.put(requestUri).contentType("application/json").content(requestBody))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
